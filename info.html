@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat Bot mySA</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #e5ddd5;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      background-color: #ffffff;
+      padding: 2px 26px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .menu h3 {
+      padding: 20px;
+      margin: 0;
+      font-size: 24px;
+      color: #000;
+    }
+
+    .button {
+      padding: 10px 16px;
+      font-size: 14px;
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .user {
+      background-color: #dcf8c6;
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
+      flex-direction: row-reverse;
+    }
+
+    .bot {
+      background-color: #fff;
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .question-bar {
+      background: #fff;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      border-top: 1px solid #ccc;
+    }
+
+    .question-bar::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .question-bar::-webkit-scrollbar-thumb {
+      background: #aaa;
+      border-radius: 3px;
+    }
+
+    .question-button {
+      flex-shrink: 0;
+      padding: 10px 16px;
+      font-size: 14px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      background-color: #2D2D2D;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .question-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+  <header>
+      <div class="menu">
+      <button class="button" onclick="location.href='index.html'">Kembali</button>
+      <h3 style="display: inline-block;">Lan Yan</h3>
+      </div>
+  </header>
+<body>
+
+<div class="chat-container" id="chat">
+
+</div>
+
+<div class="question-bar" id="questionBar">
+  <button class="question-button" onclick="ask(1)">Tujuan web ini</button>
+  <button class="question-button" onclick="ask(2)">Siapa pembuatnya</button>
+  <button class="question-button" onclick="ask(3)">Bahasa pemrograman</button>
+  <button class="question-button" onclick="ask(4)">Apa itu mySA</button>
+  <button class="question-button" onclick="ask(5)">Menambahkan anime</button>
+</div>
+
+<script>
+  const chat = document.getElementById("chat");
+
+  const botImages = {
+    1: "3.png",
+    2: "Hai1.png",
+    3: "Baca2.png",
+    4: "Baca2.png",
+    5: "3.png"
+  };
+
+  const userImage = "pp.jpg";
+  const defaultBotImage = "Hai1.png";
+
+  function appendMessage(type, message, avatar) {
+    const div = document.createElement("div");
+    div.className = `bubble ${type}`;
+    div.innerHTML = `
+      <img src="${avatar}" class="avatar">
+      <span>${message}</span>
+    `;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function ask(option) {
+    let question = "";
+    let answer = "";
+    let botImg = botImages[option] || defaultBotImage;
+
+    switch (option) {
+      case 1:
+        question = "Apa tujuan web ini dibuat?";
+        answer = "Web ini dibuat sebagai penyimpanan pribadi koleksi anime.";
+        break;
+      case 2:
+        question = "Siapa pembuat web nya?";
+        answer = "Web ini dibuat oleh Lan Yan.";
+        break;
+      case 3:
+        question = "Bahasa pemrograman apa yang dipakai?";
+        answer = "HTML, CSS, JSON, dan JavaScript.";
+        break;
+      case 4:
+        question = "Apa itu mySA?";
+        answer = "mySA adalah singkatan dari 'my Storage Anime'.";
+        break;
+      case 5:
+        question = "Bagaimana cara menambahkan anime?";
+        answer = "Anime ditambahkan oleh admin.";
+        break;
+      default:
+        question = "Pertanyaan tidak dikenali.";
+        answer = "Maaf, saya belum bisa menjawab itu.";
+    }
+
+    appendMessage("user", question, userImage);
+    setTimeout(() => {
+      appendMessage("bot", answer, botImg);
+    }, 800);
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    appendMessage("bot", "Hai! Saya Lan Yan. Saya akan menjawab pertanyaan seputar mySA. Silakan pilih salah satu pertanyaan di bawah ini.", defaultBotImage);
+  });
+</script>
+
+</body>
+</html>

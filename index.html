@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Storage Anime</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #ffffff;
+      padding: 10px 26px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+
+
+  .loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    transition: opacity 0.5s ease;
+  }
+
+  .loader-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .loader {
+    height: 5px;
+    width: 5px;
+    color: #000;
+    box-shadow: -10px -10px 0 5px,
+                -10px -10px 0 5px,
+                -10px -10px 0 5px,
+                -10px -10px 0 5px;
+    animation: loader-38 6s infinite;
+  }
+
+  @keyframes loader-38 {
+    0% { box-shadow: -10px -10px 0 5px, -10px -10px 0 5px, -10px -10px 0 5px, -10px -10px 0 5px; }
+    8.33% { box-shadow: -10px -10px 0 5px, 10px -10px 0 5px, 10px -10px 0 5px, 10px -10px 0 5px; }
+    16.66% { box-shadow: -10px -10px 0 5px, 10px -10px 0 5px, 10px 10px 0 5px, 10px 10px 0 5px; }
+    24.99% { box-shadow: -10px -10px 0 5px, 10px -10px 0 5px, 10px 10px 0 5px, -10px 10px 0 5px; }
+    33.32% { box-shadow: -10px -10px 0 5px, 10px -10px 0 5px, 10px 10px 0 5px, -10px -10px 0 5px; }
+    41.65% { box-shadow: 10px -10px 0 5px, 10px -10px 0 5px, 10px 10px 0 5px, 10px -10px 0 5px; }
+    49.98% { box-shadow: 10px 10px 0 5px, 10px 10px 0 5px, 10px 10px 0 5px, 10px 10px 0 5px; }
+    58.31% { box-shadow: -10px 10px 0 5px, -10px 10px 0 5px, 10px 10px 0 5px, -10px 10px 0 5px; }
+    66.64% { box-shadow: -10px -10px 0 5px, -10px -10px 0 5px, 10px 10px 0 5px, -10px 10px 0 5px; }
+    74.97% { box-shadow: -10px -10px 0 5px, 10px -10px 0 5px, 10px 10px 0 5px, -10px 10px 0 5px; }
+    83.3% { box-shadow: -10px -10px 0 5px, 10px 10px 0 5px, 10px 10px 0 5px, -10px 10px 0 5px; }
+    91.63% { box-shadow: -10px -10px 0 5px, -10px 10px 0 5px, -10px 10px 0 5px, -10px 10px 0 5px; }
+    100% { box-shadow: -10px -10px 0 5px, -10px -10px 0 5px, -10px -10px 0 5px, -10px -10px 0 5px; }
+  }
+
+
+    .menu h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #000;
+    }
+
+    #search-box {
+      padding: 8px;
+      font-size: 14px;
+      width: 100%;
+      max-width: 300px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+
+    main {
+     padding: 10px 16px;
+    }
+
+    @media (min-width: 768px) {
+     main {
+     padding: 20px 80px;
+    }
+    }
+
+    .deskripsi-film {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+
+    .deskripsi {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .judul {
+      padding: 12px 16px 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .sampul {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 18/9;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .sampul img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .links {
+      padding: 12px 16px 16px;
+    }
+
+    .link-container button {
+      padding: 10px 16px;
+      font-size: 14px;
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .popup-button {
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      color: #007bff;
+      transition: color 0.3s;
+    }
+
+    .popup-button:hover {
+      color: #0056b3;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      background-color: white;
+      max-width: 300px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      animation: slideDown 0.5s ease forwards;
+      text-align: center;
+      z-index: 2000;
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .nav-buttons button {
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #0056b3;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+
+    @media (min-width: 768px) {
+      #search-box {
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+    
+    <div id="loader" class="loader-container">
+  <div class="loader"></div>
+</div>
+
+  <header>
+    <div class="menu">
+      <h1 style="display: inline-block;">mySA</h1>
+          <button class="popup-button" onclick="togglePopup()">ⓘ</button>
+    </div>
+    <input id="search-box" type="text" placeholder="Cari judul...">
+  </header>
+  
+    <div class="popup" id="popup">
+    <p id="count">Memuat data...</p>
+    <div class="nav-buttons">
+        
+      <button onclick="location.href='info.html'">Info</button>
+      
+      <button onclick="window.open('https://myanimelist.net/topanime.php', '_blank')">MAL</button>
+      
+      <button onclick="window.open('https://wa.me/+6285743145053?text=Halo,+Saya+mau+tanya+tentang+*mySA*', '_blank')">Hubungi</button>
+      
+    </div>
+  </div>
+
+  <main>
+      
+      <main id="film-container">
+  </main>
+
+<script>
+  const loader = document.getElementById('loader');
+  const startTime = Date.now();
+
+  async function fetchJSON() {
+    const res = await fetch('data.json');
+    const data = await res.json();
+    window.allFilms = data;
+    return data;
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      await fetchJSON();
+
+      loadMoreFilms();
+    } catch (err) {
+      console.error("Gagal load", err);
+    }
+
+    const elapsed = Date.now() - startTime;
+    const remaining = Math.max(0, 3000 - elapsed);
+
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      setTimeout(() => loader.remove(), 500);
+    }, remaining);
+  });
+</script>
+
+<script src="render.js"></script>
+<script src="cari.js"></script>
+<script src="scroll.js"></script>
+<script src="salintxt.js"></script>
+<script src="info.js"></script>
+
+</body>
+</html>
