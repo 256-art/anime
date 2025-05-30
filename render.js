@@ -5,7 +5,7 @@ let allFilms = [];
 let currentIndex = 0;
 const chunkSize = 10;
 
-function truncateTitle(title, maxLength = 24) {
+function truncateTitle(title, maxLength = 28) {
   return title.length > maxLength ? title.slice(0, maxLength - 3) + "..." : title;
 }
 
